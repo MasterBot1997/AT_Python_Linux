@@ -1,7 +1,7 @@
 import pytest
 import task_1
 
-pwd = 'cd /home/gigabot/shared/AT_Python_Linux/HW_2/'
+pwd = f'cd /home/{task_1.user_name}/shared/AT_Python_Linux/HW_2/'
 
 #Тест выполненый на семинаре
 def test_step_zip():
