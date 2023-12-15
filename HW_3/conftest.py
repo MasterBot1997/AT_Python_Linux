@@ -45,5 +45,7 @@ def make_subfolder():
 
 @pytest.fixture(autouse=True)
 def time():
-    print(f'Start: {datetime.now().strftime("%H:%M:%S:%f")}')
-    yield print(f'Stop: {datetime.now().strftime("%H:%M:%S:%f")}')
+    # print(f'Start: {datetime.now().strftime("%H:%M:%S:%f")}')
+    # yield print(f'Stop: {datetime.now().strftime("%H:%M:%S:%f")}'
+
+    yield checkout(f'cat {data["pwd_4"]} >> {data["pwd_stat"]}', '')
