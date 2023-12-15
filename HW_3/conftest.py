@@ -1,10 +1,11 @@
 import pytest
 import random
 import string
+import os
 
 from datetime import datetime
 from test_task import data
-from checker import checkout
+from checker import checkout, get_out
 
 
 # Предварительное создание директорий для тестирования
@@ -47,5 +48,6 @@ def make_subfolder():
 def time():
     # print(f'Start: {datetime.now().strftime("%H:%M:%S:%f")}')
     # yield print(f'Stop: {datetime.now().strftime("%H:%M:%S:%f")}'
-
-    yield checkout(f'cat {data["pwd_4"]} >> {data["pwd_stat"]}', '')
+    with open('stat.txt', 'a', encoding='utf-8') as f:
+        res = get_out(f'cat {data["pwd_4"]}').replace('\n', '')
+        yield f.writelines(f'Время: {datetime.now().strftime("%d-%m-%y %H:%M:%S:%f")} - Статистика загрузки процессора: {res} \n')
