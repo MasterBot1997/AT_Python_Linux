@@ -6,6 +6,8 @@ from checker import upload_files, ssh_checkout
 with open("config.yaml", "r") as f:
     data = yaml.safe_load(f)
 
+path_test_folder = f'/home/{data.get("user_name")}/{data.get("test_folder_name")}/'
+
 
 # тест установки пакета
 def test_deploy():
@@ -44,14 +46,14 @@ def test_step_zip(clear_folders, make_folders, make_name_arh, make_file):
         data.get("ip"),
         data.get("user_name"),
         data.get("password"),
-        f'cd /home/{data.get("user_name")}/Test/dir_file; 7z a /home/{data.get("user_name")}/Test/dir_zip/{make_name_arh}',
+        f"cd {path_test_folder}dir_file; 7z a {path_test_folder}dir_zip/{make_name_arh}",
         "Everything is Ok",
     )
     res2 = ssh_checkout(
         data.get("ip"),
         data.get("user_name"),
         data.get("password"),
-        f'ls /home/{data.get("user_name")}/Test/dir_zip',
+        f"ls {path_test_folder}dir_zip",
         make_name_arh,
     )
     assert res1, "Error zip"
@@ -66,7 +68,7 @@ def test_step_unzip(clear_folders, make_folders, make_name_arh, make_file):
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'cd /home/{data.get("user_name")}/Test/dir_file; 7z a /home/{data.get("user_name")}/Test/dir_zip/{make_name_arh}',
+            f"cd {path_test_folder}dir_file; 7z a {path_test_folder}dir_zip/{make_name_arh}",
             "Everything is Ok",
         )
     )
@@ -75,7 +77,7 @@ def test_step_unzip(clear_folders, make_folders, make_name_arh, make_file):
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'cd /home/{data.get("user_name")}/Test/dir_zip; 7z e {make_name_arh}.7z -o/home/{data.get("user_name")}/Test/dir_unzip',
+            f"cd {path_test_folder}dir_zip; 7z e {make_name_arh}.7z -o{path_test_folder}dir_unzip",
             "Everything is Ok",
         )
     )
@@ -85,7 +87,7 @@ def test_step_unzip(clear_folders, make_folders, make_name_arh, make_file):
                 data.get("ip"),
                 data.get("user_name"),
                 data.get("password"),
-                f'ls /home/{data.get("user_name")}/Test/dir_unzip',
+                f"ls {path_test_folder}dir_unzip",
                 item,
             )
         )
@@ -101,7 +103,7 @@ def test_zip_key_l(clear_folders, make_folders, make_file, make_name_arh):
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'cd /home/{data.get("user_name")}/Test/dir_file; 7z a /home/{data.get("user_name")}/Test/dir_zip/{make_name_arh}',
+            f"cd {path_test_folder}dir_file; 7z a {path_test_folder}dir_zip/{make_name_arh}",
             "Everything is Ok",
         )
     )
@@ -111,7 +113,7 @@ def test_zip_key_l(clear_folders, make_folders, make_file, make_name_arh):
                 data.get("ip"),
                 data.get("user_name"),
                 data.get("password"),
-                f'cd /home/{data.get("user_name")}/Test/dir_zip; 7z l {make_name_arh}.7z',
+                f"cd {path_test_folder}dir_zip; 7z l {make_name_arh}.7z",
                 item,
             )
         )
@@ -125,7 +127,7 @@ def test_zip_key_u(make_name_arh):
         data.get("ip"),
         data.get("user_name"),
         data.get("password"),
-        f'cd /home/{data.get("user_name")}/Test/dir_file; 7z u {make_name_arh}',
+        f"cd {path_test_folder}dir_file; 7z u {make_name_arh}",
         "Everything is Ok",
     ), "Error key -u"
 
@@ -140,7 +142,7 @@ def test_zip_key_x(
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'cd /home/{data.get("user_name")}/Test/dir_file; 7z a /home/{data.get("user_name")}/Test/dir_zip/{make_name_arh}',
+            f"cd {path_test_folder}dir_file; 7z a {path_test_folder}dir_zip/{make_name_arh}",
             "Everything is Ok",
         )
     )
@@ -149,7 +151,7 @@ def test_zip_key_x(
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'cd /home/{data.get("user_name")}/Test/dir_zip; 7z x {make_name_arh}.7z -o/home/{data.get("user_name")}/Test/dir_unzip',
+            f"cd {path_test_folder}dir_zip; 7z x {make_name_arh}.7z -o{path_test_folder}dir_unzip",
             "Everything is Ok",
         )
     )
@@ -159,7 +161,7 @@ def test_zip_key_x(
                 data.get("ip"),
                 data.get("user_name"),
                 data.get("password"),
-                f'ls /home/{data.get("user_name")}/Test/dir_unzip',
+                f"ls {path_test_folder}dir_unzip",
                 item,
             )
         )
@@ -169,7 +171,7 @@ def test_zip_key_x(
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'ls /home/{data.get("user_name")}/Test/dir_unzip',
+            f"ls {path_test_folder}dir_unzip",
             make_subfolder[0],
         )
     )
@@ -178,7 +180,7 @@ def test_zip_key_x(
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'ls /home/{data.get("user_name")}/Test/dir_unzip/{make_subfolder[0]}',
+            f"ls {path_test_folder}dir_unzip/{make_subfolder[0]}",
             make_subfolder[1],
         )
     )
@@ -188,5 +190,10 @@ def test_zip_key_x(
 
 # тест удаления пакета
 def test_del_7z(clear_folders):
-    assert ssh_checkout(data.get('ip'), data.get('user_name'), data.get('password'), f"echo {data.get('password')} | sudo -S dpkg -r {data.get('program')}",
-                            "Удаляется"), 'Пакет не удален'
+    assert ssh_checkout(
+        data.get("ip"),
+        data.get("user_name"),
+        data.get("password"),
+        f"echo {data.get('password')} | sudo -S dpkg -r {data.get('program')}",
+        "Удаляется",
+    ), "Пакет не удален"
