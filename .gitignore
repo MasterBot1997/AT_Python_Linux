@@ -154,3 +154,7 @@ cython_debug/
 dir_file
 dir_zip
 dir_unzip
+archive
+output.json
+pytest_html_report.html
+prac
