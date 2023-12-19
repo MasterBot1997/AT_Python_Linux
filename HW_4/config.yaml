@@ -1,6 +1,7 @@
 ip: '0.0.0.0' # ip хоста к которому подключаемся
 user_name: user2 # имя пользователя на которым тестим удаленно
 password: '1111' # Пароль хоста для подключения
+test_folder_name: Test
 program: p7zip-full # Имя программы
 path_file: /home/gigabot/shared/p7zip-full.deb # Путь до файла для установки
 path_user2: /home/user2/p7zip-full.deb # Путь куда файл скачивается по ssh
