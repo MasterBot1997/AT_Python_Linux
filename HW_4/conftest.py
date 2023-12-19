@@ -4,7 +4,7 @@ import string
 import os
 
 from datetime import datetime
-from test_task import data
+from test_task import data, path_test_folder
 from checker import get_out, upload_files, ssh_checkout
 
 
@@ -21,20 +21,20 @@ def make_folders():
         data.get("user_name"),
         data.get("password"),
         f'ls /home/{data.get("user_name")}',
-        "Test",
+        data.get("test_folder_name"),
     ):
         return ssh_checkout(
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'mkdir /home/{data.get("user_name")}/Test; cd /home/{data.get("user_name")}/Test; mkdir dir_file dir_zip dir_unzip',
+            f"mkdir {path_test_folder}; cd {path_test_folder}; mkdir dir_file dir_zip dir_unzip",
             "",
         )
     return ssh_checkout(
         data.get("ip"),
         data.get("user_name"),
         data.get("password"),
-        f'cd /home/{data.get("user_name")}/Test; mkdir dir_file dir_zip dir_unzip',
+        f"cd {path_test_folder}; mkdir dir_file dir_zip dir_unzip",
         "",
     )
 
@@ -45,7 +45,7 @@ def clear_folders():
         data.get("ip"),
         data.get("user_name"),
         data.get("password"),
-        f'rm -rf /home/{data.get("user_name")}/Test',
+        f"rm -rf {path_test_folder}",
         "",
     )
 
@@ -59,7 +59,7 @@ def make_file():
             data.get("ip"),
             data.get("user_name"),
             data.get("password"),
-            f'cd /home/{data.get("user_name")}/Test/dir_file; dd if=/dev/urandom of={file_name} bs=1M count=1 iflag=fullblock',
+            f"cd {path_test_folder}/dir_file; dd if=/dev/urandom of={file_name} bs=1M count=1 iflag=fullblock",
             "",
         ):
             list_of_files.append(file_name)
@@ -84,7 +84,7 @@ def make_subfolder():
         data.get("ip"),
         data.get("user_name"),
         data.get("password"),
-        f'cd /home/{data.get("user_name")}/Test/dir_file; mkdir {sub_folder_name}',
+        f"cd {path_test_folder}/dir_file; mkdir {sub_folder_name}",
         "",
     ):
         return None, None
@@ -92,7 +92,7 @@ def make_subfolder():
         data.get("ip"),
         data.get("user_name"),
         data.get("password"),
-        f'cd /home/{data.get("user_name")}/Test/dir_file/{sub_folder_name}; dd if=/dev/urandom of={test_file_name} bs=1M count=1 iflag=fullblock',
+        f"cd {path_test_folder}/dir_file/{sub_folder_name}; dd if=/dev/urandom of={test_file_name} bs=1M count=1 iflag=fullblock",
         "",
     ):
         return sub_folder_name, None
